@@ -4,5 +4,6 @@
   "email" : "Adresse e-mail",
   "password": "Mot de passe",
   "login" : "Se connecter",
-  "signup" : "S'inscrire"
+  "signup" : "S'inscrire",
+  "ok": "OK"
 }

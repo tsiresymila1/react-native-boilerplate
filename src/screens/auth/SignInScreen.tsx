@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {Button, TextInput} from 'react-native-paper';
+import React, {useCallback, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {Button} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {i18n} from '../../i18n';
@@ -13,10 +13,12 @@ import {logout} from '../../redux/slice/authSlice';
 import {toggleLoader} from '../../redux/slice/loaderSlice';
 import CustomInput from '../../components/common/CustomInput';
 import Logo from '../../components/common/Logo';
+import {useLoginMutation} from '../../redux/api/auth/post';
 
 const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
   const token = useAppSelector(state => state.auth.token);
   const dispatch = useAppDispatch();
+  const [loginMutation] = useLoginMutation();
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -36,10 +38,16 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
     dispatch(toggleLoader(state));
   };
 
+  const runLogin = useCallback(() => {
+    loginMutation({username, password}).then(res => {
+      console.log('Response login : ', res);
+    });
+  }, []);
+
   return (
     <View className="h-full w-full justify-center px-4">
       <View className="w-full justify-center items-center py-4">
-      <Logo />
+        <Logo />
       </View>
       <View className="pb-3">
         <CustomInput
@@ -69,13 +77,13 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
         />
       </View>
       <Button
-        style={styles.btnStyle}
+        className="w-full bg-[#2b207f] rounded-[8px]"
         contentStyle={styles.btnContentStyle}
         labelStyle={{
           fontFamily: 'Monserrat-Regular',
         }}
         mode="contained"
-        onPress={updateToken}>
+        onPress={runLogin}>
         {i18n.t('login')}
       </Button>
       <View className="flex flex-row justify-between py-4 px-2">
@@ -99,12 +107,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: moderateScale(8),
-  },
-  btnStyle: {
-    width: '100%',
-    height: verticalScale(36),
-    borderRadius: moderateScale(8),
-    marginVertical: verticalScale(4),
-    backgroundColor: Constant.btnColor,
   },
 });

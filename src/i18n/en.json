@@ -4,5 +4,6 @@
   "email" : "E-mail",
   "password": "Password",
   "login" : "Login",
-  "signup" : "Signup"
+  "signup" : "Signup",
+  "ok": "OK"
 }

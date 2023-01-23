@@ -4,6 +4,7 @@ import {authReducer} from './slice/authSlice';
 import errorSlice from './slice/errorSlice';
 import loaderSlice from './slice/loaderSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {baseApi} from './api/baseApi';
 
 // redux persist config
 const persistConfig = {
@@ -18,11 +19,12 @@ export const store = configureStore({
     auth: authReducer(persistConfig),
     loader: loaderSlice,
     error: errorSlice,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(baseApi.middleware),
 });
 
 // Persist store with AsyncStorage

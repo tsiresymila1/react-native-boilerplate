@@ -1,5 +1,6 @@
 import React, {useEffect, ReactNode as AppNode} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
+import { NativeWindStyleSheet} from "nativewind"
 
 import {StatusBar, useColorScheme, View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -15,6 +16,7 @@ import {persist, store} from './redux/store';
 import {ModalLoader} from './components/ModalLoader';
 // @ts-ignore
 import {API_URL} from '@env';
+import { ModalError } from './components/ModalError';
 
 // end configuration translate
 const App: React.FC<AppNode> = () => {
@@ -71,6 +73,7 @@ const App: React.FC<AppNode> = () => {
                   <RootNavigation />
                 </NavigationContainer>
                 <ModalLoader />
+                <ModalError />
               </View>
             </PaperProvider>
           </SafeAreaProvider>
