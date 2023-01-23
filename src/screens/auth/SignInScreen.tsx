@@ -1,15 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import {i18n} from '../../i18n';
 import {SignInNavigationProps} from '../../config/navigation';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import uuid from 'react-native-uuid';
 import Constant from '../../helpers/constant';
-import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import {moderateScale, verticalScale} from 'react-native-size-matters';
 import {logout} from '../../redux/slice/authSlice';
 import {toggleLoader} from '../../redux/slice/loaderSlice';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import CustomInput from '../../components/common/CustomInput';
+import Logo from '../../components/common/Logo';
 
 const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
   const token = useAppSelector(state => state.auth.token);
@@ -34,102 +37,62 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
   };
 
   return (
-    <View style={styles.center}>
-      <View
-        style={[
-          styles.centerV,
-          {height: verticalScale(120), alignItems: 'center'},
-        ]}>
-        <Image source={require('../../assets/images/ezway.png')} />
+    <View className="h-full w-full justify-center px-4">
+      <View className="w-full justify-center items-center py-4">
+      <Logo />
       </View>
-      <View style={[styles.centerV, {height: verticalScale(50)}]}>
-        <TextInput
-          style={styles.input}
-          dense
-          mode={'outlined'}
-          activeOutlineColor={'transparent'}
-          outlineColor={'transparent'}
-          placeholder={i18n.t('username')}
-          placeholderTextColor={Constant.placeholderBaseColor}
-          value={username}
-          left={
-            <TextInput.Icon
-              color={Constant.textBaseColor}
-              style={{marginTop: 12}}
-              size={18}
-              icon="account"
+      <View className="pb-3">
+        <CustomInput
+          leftIcon={
+            <FontAwesome
+              name="user"
+              color={Constant.placeholderBaseColor}
+              size={20}
             />
           }
-          theme={{
-            colors: {text: Constant.textBaseColor},
-            roundness: moderateScale(8),
-          }}
-          onChangeText={t => setUsername(t)}
+          placeholder="Username"
+          onChangeText={e => setUsername(e)}
         />
       </View>
-      <View
-        style={[styles.centerV, {height: verticalScale(50), marginBottom: 8}]}>
-        <TextInput
-          style={styles.input}
-          dense
-          mode="outlined"
-          activeOutlineColor={'transparent'}
-          outlineColor={'transparent'}
-          placeholder={i18n.t('password')}
-          secureTextEntry
-          placeholderTextColor={Constant.placeholderBaseColor}
-          value={password}
-          left={
-            <TextInput.Icon
-              color={Constant.textBaseColor}
-              style={{marginTop: 12}}
-              size={18}
-              icon="lock"
+      <View className="pb-3">
+        <CustomInput
+          leftIcon={
+            <FontAwesome
+              name="lock"
+              color={Constant.placeholderBaseColor}
+              size={20}
             />
           }
-          theme={{
-            colors: {text: Constant.textBaseColor},
-            roundness: moderateScale(8),
-          }}
-          onChangeText={t => setPassword(t)}
+          placeholder="Password"
+          secureTextEntry
+          onChangeText={e => setPassword(e)}
         />
       </View>
       <Button
         style={styles.btnStyle}
         contentStyle={styles.btnContentStyle}
         labelStyle={{
-          fontFamily: 'Monserrat-Medium',
+          fontFamily: 'Monserrat-Regular',
         }}
         mode="contained"
         onPress={updateToken}>
         {i18n.t('login')}
       </Button>
-      <Button
-        mode="contained"
-        style={styles.btnStyle}
-        contentStyle={styles.btnContentStyle}
-        onPress={removeCurrentToken}>
-        {i18n.t('signup')}
-      </Button>
+      <View className="flex flex-row justify-between py-4 px-2">
+        <Text className="text-[#afafaf] py-2">Don't have any account ?</Text>
+        <Button
+          className="px-0 py-0"
+          textColor={Constant.textBaseColor}
+          mode="text">
+          Register
+        </Button>
+      </View>
     </View>
   );
 };
 export default SignInScreen;
 
 const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Constant.baseColor,
-    paddingHorizontal: scale(16),
-  },
-  centerV: {
-    justifyContent: 'center',
-    paddingVertical: verticalScale(4),
-    height: verticalScale(40),
-    width: '100%',
-  },
   btnContentStyle: {
     width: '100%',
     height: verticalScale(36),
@@ -143,13 +106,5 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(8),
     marginVertical: verticalScale(4),
     backgroundColor: Constant.btnColor,
-  },
-  input: {
-    height: 48,
-    justifyContent: 'center',
-    backgroundColor: Constant.secondColor,
-    borderWidth: 0,
-    fontSize: 14,
-    color: "white"
   },
 });

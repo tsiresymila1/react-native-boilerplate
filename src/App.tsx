@@ -1,7 +1,7 @@
 import React, {useEffect, ReactNode as AppNode} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
 
-import {StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
+import {StatusBar, useColorScheme, View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
@@ -60,7 +60,7 @@ const App: React.FC<AppNode> = () => {
         <CustomThemePreferencesProvider value={themePreference}>
           <SafeAreaProvider>
             <PaperProvider>
-              <View style={styles.main}>
+              <View className="w-full h-full bg-[var(--base-color)]">
                 <StatusBar
                   barStyle={
                     theme === 'dark' ? 'light-content' : 'light-content'
@@ -80,11 +80,4 @@ const App: React.FC<AppNode> = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  main: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: Constant.baseColor,
-  },
-});
 export default App;
