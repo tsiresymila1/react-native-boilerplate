@@ -1,0 +1,125 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-Black.ttf",
+      "sha1": "96d03479269d1ba7a3e38f4b64ff87ead267c998"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-BlackItalic.ttf",
+      "sha1": "6e84efcb6bf01c47102d6e9f0dbe5958e74c9f20"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-Bold.ttf",
+      "sha1": "3a54407a2b26ff4718708a4726b10cb070d16534"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-BoldItalic.ttf",
+      "sha1": "6acf078ad5e1b77e6d68b8ff0cde39d81b9f057c"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-ExtraBold.ttf",
+      "sha1": "4b5c27dcf59df165606efa247190c0bfa3c02ff0"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-ExtraBoldItalic.ttf",
+      "sha1": "28423e53b60316c09f468055ca8c1d27c06ab45b"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-ExtraLight.ttf",
+      "sha1": "fe3c849af6231af6c5c43d1045f2011bf683f317"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-ExtraLightItalic.ttf",
+      "sha1": "40d3231d668844dab24536fa0c380bdc2311a992"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-Italic.ttf",
+      "sha1": "798c701450f6bc08217f73c1ac569100cddc2947"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-Light.ttf",
+      "sha1": "83879cec4c934d446eca63aa5cfedcebfd60d610"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-LightItalic.ttf",
+      "sha1": "659632ad8a33d96e6a00319d7b0c020e9cc6cc5b"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-Medium.ttf",
+      "sha1": "65a98832079c4d2c67f3acc4f4ce2de630fe6cb0"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-MediumItalic.ttf",
+      "sha1": "ceadac9926836d5fc0ee14f94567f0ea25979fa2"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-Regular.ttf",
+      "sha1": "d25b35242deb1c6ff888b8162ca2aacc356d3899"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-SemiBold.ttf",
+      "sha1": "f829de4c176fb2ccf5e33360920f48de6794434e"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-SemiBoldItalic.ttf",
+      "sha1": "3c2759411b32ad6779aba08e4c09ed1b3c0bc4d4"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-Thin.ttf",
+      "sha1": "1d00ff2f5bc9331aa6e75b5a82dd698976615dc4"
+    },
+    {
+      "path": "src/assets/fonts/Monserrat/Montserrat-ThinItalic.ttf",
+      "sha1": "ae19fb168e043e6408692c4bc50dd0aab76fdc22"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-Black.ttf",
+      "sha1": "e28654c12713143bfdd72f8c559c48a19c1cbf18"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-BlackItalic.ttf",
+      "sha1": "91158ed880ebf4bb904568ec246e85a07fefcdfb"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-Bold.ttf",
+      "sha1": "013f1bbcbbd80991a5f00fca52a90d0d7ab8b81f"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-BoldItalic.ttf",
+      "sha1": "41985122ae0d78676ac1eb30edde89606bdbe531"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-Italic.ttf",
+      "sha1": "20420db4e13d654cbe22b5fba6296c78a6360537"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-Light.ttf",
+      "sha1": "51dbae4543aaa10096e344e48fcffe468bd314a9"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-LightItalic.ttf",
+      "sha1": "538f6b977a7109f14cf314b8bad18ed84519d995"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-Medium.ttf",
+      "sha1": "fddc8b1c688ef3baed0d5a46abf5f01f0edaf02b"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-MediumItalic.ttf",
+      "sha1": "b13559734aa602f9a1bddb8b5be72d7036858716"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-Regular.ttf",
+      "sha1": "84d102488738b0ebbc7a5087973effbd54c95bd5"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-Thin.ttf",
+      "sha1": "e07c400b55ef4ac7fb5ff9a79d301712922c681b"
+    },
+    {
+      "path": "src/assets/fonts/Roboto/Roboto-ThinItalic.ttf",
+      "sha1": "4c80f7c044a7e9a83865f625559e114ea4d7d2b1"
+    }
+  ]
+}
