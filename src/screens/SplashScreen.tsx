@@ -10,7 +10,7 @@ const SplashScreen: React.FC<SplashNavigationProps> = ({navigation}) => {
     new Promise<{data: string | null}>(resolve =>
       setTimeout(() => resolve({data: 'ok'}), 3000),
     ).then(() => {
-      navigation.replace('SignIn');
+      navigation.replace("SignUp");
     });
   };
   useEffect(() => {

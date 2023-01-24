@@ -5,42 +5,23 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {i18n} from '../../i18n';
 import {SignInNavigationProps} from '../../config/navigation';
-import {useAppDispatch, useAppSelector} from '../../hooks/redux';
-import uuid from 'react-native-uuid';
 import Constant from '../../helpers/constant';
 import {moderateScale, verticalScale} from 'react-native-size-matters';
-import {logout} from '../../redux/slice/authSlice';
-import {toggleLoader} from '../../redux/slice/loaderSlice';
 import CustomInput from '../../components/common/CustomInput';
 import Logo from '../../components/common/Logo';
 import {useLoginMutation} from '../../redux/api/auth/post';
 
 const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
-  const token = useAppSelector(state => state.auth.token);
-  const dispatch = useAppDispatch();
   const [loginMutation] = useLoginMutation();
-
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const updateToken = () => {
-    const newToken: string = uuid.v4().toString();
-    // dispatch(setToken(newToken));
-    loading(true);
-  };
-
-  const removeCurrentToken = () => {
-    dispatch(logout());
-    loading(false);
-  };
-
-  const loading = (state: boolean) => {
-    dispatch(toggleLoader(state));
-  };
-
   const runLogin = useCallback(() => {
     loginMutation({username, password}).then(res => {
-      console.log('Response login : ', res);
+      const result = res as any
+      if(result && result.data){
+        navigation.navigate('SignUp')
+      }
     });
   }, []);
 
@@ -92,7 +73,7 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
           className="px-0 py-0"
           textColor={Constant.textBaseColor}
           mode="text">
-          Register
+          {i18n.t("register")}
         </Button>
       </View>
     </View>
