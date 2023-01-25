@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {i18n} from '../i18n';
-import {Image, Text, View} from 'react-native';
+import { Text, View} from 'react-native';
 import {scale} from 'react-native-size-matters';
 import {SplashNavigationProps} from '../config/navigation';
 import Logo from '../components/common/Logo';
@@ -10,7 +10,7 @@ const SplashScreen: React.FC<SplashNavigationProps> = ({navigation}) => {
     new Promise<{data: string | null}>(resolve =>
       setTimeout(() => resolve({data: 'ok'}), 3000),
     ).then(() => {
-      navigation.replace("SignUp");
+      navigation.replace("SignIn");
     });
   };
   useEffect(() => {

@@ -18,6 +18,14 @@ import {
 const SignupScreen: React.FC<SingUpNavigationProps> = ({navigation}) => {
   const [profil, setProfil] = useState<Asset | undefined>();
 
+  const register = () => {
+    navigation.navigate('Home', {
+      screen: 'Conversation',
+      params: {
+        screen: 'Chat',
+      },
+    });
+  };
   const loadImage = async () => {
     if (profil) {
       setProfil(undefined);
@@ -62,7 +70,7 @@ const SignupScreen: React.FC<SingUpNavigationProps> = ({navigation}) => {
         {profil && profil.uri && (
           <Image
             source={{uri: profil.uri}}
-            className="h-[140px]"
+            className="h-[140px] w-[140px]"
             resizeMode="contain"
           />
         )}
@@ -127,6 +135,7 @@ const SignupScreen: React.FC<SingUpNavigationProps> = ({navigation}) => {
       <Button
         className="w-full bg-[#2b207f] rounded-[8px]"
         contentStyle={styles.btnContentStyle}
+        onPress={register}
         labelStyle={{
           fontFamily: 'Monserrat-Regular',
         }}
@@ -136,6 +145,7 @@ const SignupScreen: React.FC<SingUpNavigationProps> = ({navigation}) => {
       <View className="flex flex-row justify-between py-4 px-2  w-full">
         <Text className="text-[#afafaf] py-2">Have already an account ?</Text>
         <Button
+          onPress={() => navigation.replace('SignIn')}
           className="px-0 py-0"
           textColor={Constant.textBaseColor}
           mode="text">

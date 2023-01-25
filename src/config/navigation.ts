@@ -1,6 +1,10 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackCardInterpolationProps} from '@react-navigation/stack';
-import {RootNavigationProps} from '../@types/navigations/RootNavigationProps';
+import {
+  AdminNavigationProps,
+  ConvTabNavigationProps,
+  RootNavigationProps,
+} from '../@types/navigations/RootNavigationProps';
 import Constant from '../helpers/constant';
 
 export const navigationOption: any = {
@@ -17,7 +21,7 @@ export const navigationOption: any = {
           },
         ],
       },
-      style: {backgroundColor: Constant.baseColor},
+      style: {backgroundColor: 'transparent'},
       bodyStyle: {
         backgroundColor: 'transparent',
       },
@@ -38,4 +42,19 @@ export type SignInNavigationProps = NativeStackScreenProps<
 export type SingUpNavigationProps = NativeStackScreenProps<
   RootNavigationProps,
   'SignUp'
+>;
+
+export type HomeNavigationProps = NativeStackScreenProps<
+  RootNavigationProps,
+  'Home'
+>;
+
+export type ConversationNavigationProps = NativeStackScreenProps<
+  AdminNavigationProps,
+  'Conversation'
+>;
+
+export type ChatNavigationProps = NativeStackScreenProps<
+  ConvTabNavigationProps,
+  'Chat'
 >;

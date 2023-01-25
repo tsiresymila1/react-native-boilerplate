@@ -18,9 +18,9 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
 
   const runLogin = useCallback(() => {
     loginMutation({username, password}).then(res => {
-      const result = res as any
-      if(result && result.data){
-        navigation.navigate('SignUp')
+      const result = res as any;
+      if (result && result.data) {
+        navigation.navigate('SignUp');
       }
     });
   }, []);
@@ -72,8 +72,9 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
         <Button
           className="px-0 py-0"
           textColor={Constant.textBaseColor}
+          onPress={() => navigation.replace('SignUp')}
           mode="text">
-          {i18n.t("register")}
+          {i18n.t('register')}
         </Button>
       </View>
     </View>

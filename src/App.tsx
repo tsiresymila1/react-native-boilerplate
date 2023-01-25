@@ -1,14 +1,12 @@
 import React, {useEffect, ReactNode as AppNode} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
-import { NativeWindStyleSheet} from "nativewind"
-
-import {StatusBar, useColorScheme, View} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {Provider as ReduxProvider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import RootNavigation from './routes/RootNavigation';
+import RootNavigation from './routes/RouteNavigation';
 import Constant from './helpers/constant';
 import {CustomThemePreferencesProvider} from './config/theme';
 import {CustomThemeProps} from './@types/CustomThemeProps';
@@ -16,7 +14,8 @@ import {persist, store} from './redux/store';
 import {ModalLoader} from './components/ModalLoader';
 // @ts-ignore
 import {API_URL} from '@env';
-import { ModalError } from './components/ModalError';
+import {ModalError} from './components/ModalError';
+import {SafeAreaView} from 'react-native';
 
 // end configuration translate
 const App: React.FC<AppNode> = () => {
@@ -62,19 +61,19 @@ const App: React.FC<AppNode> = () => {
         <CustomThemePreferencesProvider value={themePreference}>
           <SafeAreaProvider>
             <PaperProvider>
-              <View className="w-full h-full bg-[var(--base-color)]">
-                <StatusBar
+              <SafeAreaView className="w-full h-full">
+                {/* <StatusBar
                   barStyle={
                     theme === 'dark' ? 'light-content' : 'light-content'
                   }
                   backgroundColor={Constant.baseColor}
-                />
+                /> */}
                 <NavigationContainer theme={NavigationTheme}>
                   <RootNavigation />
                 </NavigationContainer>
                 <ModalLoader />
                 <ModalError />
-              </View>
+              </SafeAreaView>
             </PaperProvider>
           </SafeAreaProvider>
         </CustomThemePreferencesProvider>
