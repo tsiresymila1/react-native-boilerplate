@@ -1,9 +1,10 @@
-import {Text, View} from 'react-native';
+import CustomText from '@/components/common/CustomText';
+import { View} from 'react-native';
 
 const People = () => {
   return (
     <View className="px-4 py-4">
-      <Text>People</Text>
+      <CustomText>People</CustomText>
     </View>
   );
 };

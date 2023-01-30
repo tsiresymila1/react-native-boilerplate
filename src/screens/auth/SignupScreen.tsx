@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {i18n} from "@/i18n";
-import {SingUpNavigationProps} from "@/config/navigation";
+import {Image, StyleSheet, View} from 'react-native';
+import {i18n} from '@/i18n';
+import {SingUpNavigationProps} from '@/config/navigation';
 import {moderateScale, verticalScale} from 'react-native-size-matters';
-import {Button} from 'react-native-paper';
 import Constant from '../../helpers/constant';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomInput from '../../components/common/CustomInput';
@@ -14,6 +13,8 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import CustomText from '@/components/common/CustomText';
+import CustomButton from '@/components/common/CustomButton';
 
 const SignupScreen: React.FC<SingUpNavigationProps> = ({navigation}) => {
   const [profil, setProfil] = useState<Asset | undefined>();
@@ -132,25 +133,24 @@ const SignupScreen: React.FC<SingUpNavigationProps> = ({navigation}) => {
           />
         </View>
       </View>
-      <Button
+      <CustomButton
         className="w-full bg-[#2b207f] rounded-[8px]"
         contentStyle={styles.btnContentStyle}
         onPress={register}
-        labelStyle={{
-          fontFamily: 'Monserrat-Regular',
-        }}
         mode="contained">
         {i18n.t('register')}
-      </Button>
+      </CustomButton>
       <View className="flex flex-row justify-between py-4 px-2  w-full">
-        <Text className="text-[#afafaf] py-2">Have already an account ?</Text>
-        <Button
+        <CustomText className="text-[#afafaf] py-2">
+          Have already an account ?
+        </CustomText>
+        <CustomButton
           onPress={() => navigation.replace('SignIn')}
           className="px-0 py-0"
           textColor={Constant.textBaseColor}
           mode="text">
           {i18n.t('login')}
-        </Button>
+        </CustomButton>
       </View>
     </View>
   );

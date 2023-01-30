@@ -10,6 +10,8 @@ import {moderateScale, verticalScale} from 'react-native-size-matters';
 import CustomInput from '../../components/common/CustomInput';
 import Logo from '../../components/common/Logo';
 import {useLoginMutation} from "@/redux/api/auth/post";
+import CustomText from '@/components/common/CustomText';
+import CustomButton from '@/components/common/CustomButton';
 
 const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
   const [loginMutation] = useLoginMutation();
@@ -57,25 +59,22 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
           onChangeText={e => setPassword(e)}
         />
       </View>
-      <Button
+      <CustomButton
         className="w-full bg-[#2b207f] rounded-[8px]"
         contentStyle={styles.btnContentStyle}
-        labelStyle={{
-          fontFamily: 'Monserrat-Regular',
-        }}
         mode="contained"
         onPress={runLogin}>
         {i18n.t('login')}
-      </Button>
+      </CustomButton>
       <View className="flex flex-row justify-between py-4 px-2">
-        <Text className="text-[#afafaf] py-2">Don't have any account ?</Text>
-        <Button
+        <CustomText className="text-[#afafaf] py-2">Don't have any account ?</CustomText>
+        <CustomButton
           className="px-0 py-0"
           textColor={Constant.textBaseColor}
           onPress={() => navigation.replace('SignUp')}
           mode="text">
           {i18n.t('register')}
-        </Button>
+        </CustomButton>
       </View>
     </View>
   );

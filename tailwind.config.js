@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./App.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        montserrat: "Montserrat-Regular",
+        monserratbold:"Montserrat-Bold"
+      }
+    },
     variables: {
       "--base-color": "#211f4a",
       "--second-color": "#2f2d4f",

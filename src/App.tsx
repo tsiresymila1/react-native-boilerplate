@@ -1,9 +1,13 @@
 import React, {useEffect, ReactNode as AppNode} from 'react';
-import {Provider as PaperProvider} from 'react-native-paper';
-import {StatusBar, useColorScheme} from 'react-native';
+import {Provider as PaperProvider, configureFonts} from 'react-native-paper';
+import {Platform, StatusBar, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
-import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  Theme as NavTheme,
+} from '@react-navigation/native';
 import {Provider as ReduxProvider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import RootNavigation from '@/routes/RouteNavigation';
@@ -17,7 +21,7 @@ import {API_URL} from '@env';
 import {ModalError} from '@/components/ModalError';
 import {SafeAreaView} from 'react-native';
 import {AuthProvider} from '@/components/AuthRequired/AuthProvider';
-
+import {MD3LightTheme as DefaultPaperTheme, MD3Theme} from 'react-native-paper';
 // end configuration translate
 const App: React.FC<AppNode> = () => {
   //Start Config theme
@@ -37,19 +41,38 @@ const App: React.FC<AppNode> = () => {
     setTheme(previous => (previous === 'light' ? 'dark' : 'light'));
   };
   //navigation theme
-  const NavigationTheme = {
+  const NavigationTheme: NavTheme = {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
       background: Constant.baseColor,
     },
   };
+
+  const fontConfig = {
+    fontFamily: 'Montserrat-Regular',
+    customVariant: {
+      fontFamily: Platform.select({
+        web: '"Montserrat-Regular", "Roboto","Helvetica Neue", Helvetica, Arial, sans-serif',
+        ios: 'System',
+        default: 'Montserrat-Regular',
+      }),
+      fontWeight: '400',
+      letterSpacing: 0.5,
+      lineHeight: 22,
+      fontSize: 14,
+    },
+  };
+  const paperTheme: MD3Theme = {
+    ...DefaultPaperTheme,
+    fonts: configureFonts({config: fontConfig}),
+  };
   //End Config theme
 
   useEffect(() => {
     async function updateNativeNavigationColor() {
       // set bottom tab color
-      await SystemNavigationBar.setNavigationColor("#16133f", 'light');
+      await SystemNavigationBar.setNavigationColor('#16133f', 'light');
     }
     updateNativeNavigationColor().then(r => {
       console.log(r, API_URL);
@@ -62,7 +85,7 @@ const App: React.FC<AppNode> = () => {
         <AuthProvider>
           <CustomThemePreferencesProvider value={themePreference}>
             <SafeAreaProvider>
-              <PaperProvider>
+              <PaperProvider theme={paperTheme}>
                 <SafeAreaView className="w-full h-full">
                   <StatusBar
                     barStyle={

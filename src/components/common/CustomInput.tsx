@@ -5,15 +5,19 @@ import Constant from '@/helpers/constant';
 type Props = Omit<InputProps, 'ref'> & {
   ref?: any;
 };
-const CustomInput = ({containerStyle,...props}: Props) => {
+const CustomInput = ({containerStyle, ...props}: Props) => {
   return (
     <Input
       {...props}
       placeholderTextColor={Constant.placeholderBaseColor}
       leftIconContainerStyle={{marginLeft: 8, marginEnd: 4}}
       inputContainerStyle={{borderBottomWidth: 0, padding: 0, marginTop: 24}}
-      containerStyle={{...styles.input,...{containerStyle}}}
-      style={{fontSize: 15, color: Constant.textBaseColor}}
+      containerStyle={{...styles.input, ...((containerStyle as object | null) ?? {})}}
+      style={{
+        fontSize: 15,
+        color: Constant.textBaseColor,
+        fontFamily: 'Montserrat-Regular',
+      }}
     />
   );
 };

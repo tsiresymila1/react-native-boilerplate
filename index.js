@@ -10,7 +10,7 @@ import { setCustomText } from 'react-native-global-props';
 
 setCustomText({
   style: {
-    fontFamily: 'Monserrat-Regular',
+    fontFamily: 'Montserrat-Regular',
     fontSize: 14,
     color: 'white',
   },

@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
 import {i18n} from '@/i18n';
-import { Text, View} from 'react-native';
+import {View} from 'react-native';
 import {scale} from 'react-native-size-matters';
 import {SplashNavigationProps} from '@/config/navigation';
 import Logo from '@/components/common/Logo';
+import CustomText from '@/components/common/CustomText';
 
 const SplashScreen: React.FC<SplashNavigationProps> = ({navigation}) => {
   const loading = () => {
     new Promise<{data: string | null}>(resolve =>
       setTimeout(() => resolve({data: 'ok'}), 3000),
     ).then(() => {
-      navigation.replace("SignIn");
+      navigation.replace('SignIn');
     });
   };
   useEffect(() => {
@@ -25,7 +26,10 @@ const SplashScreen: React.FC<SplashNavigationProps> = ({navigation}) => {
         <Logo />
       </View>
       <View className={`justify-center w-full  items-center py-2`}>
-        <Text className={`text-white text-[32px]`}>{i18n.t('title')}</Text>
+        <CustomText
+          className={`text-white text-[32px]`}>
+          {i18n.t('title')}
+        </CustomText>
       </View>
     </View>
   );
