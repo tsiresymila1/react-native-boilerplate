@@ -6,16 +6,17 @@ import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {Provider as ReduxProvider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import RootNavigation from './routes/RouteNavigation';
-import Constant from './helpers/constant';
-import {CustomThemePreferencesProvider} from './config/theme';
-import {CustomThemeProps} from './@types/CustomThemeProps';
-import {persist, store} from './redux/store';
-import {ModalLoader} from './components/ModalLoader';
+import RootNavigation from '@/routes/RouteNavigation';
+import Constant from '@/helpers/constant';
+import {CustomThemePreferencesProvider} from '@/config/theme';
+import {CustomThemeProps} from '@/@types/CustomThemeProps';
+import {persist, store} from '@/redux/store';
+import {ModalLoader} from '@/components/ModalLoader';
 // @ts-ignore
 import {API_URL} from '@env';
-import {ModalError} from './components/ModalError';
+import {ModalError} from '@/components/ModalError';
 import {SafeAreaView} from 'react-native';
+import {AuthProvider} from '@/components/AuthRequired/AuthProvider';
 
 // end configuration translate
 const App: React.FC<AppNode> = () => {
@@ -48,7 +49,7 @@ const App: React.FC<AppNode> = () => {
   useEffect(() => {
     async function updateNativeNavigationColor() {
       // set bottom tab color
-      await SystemNavigationBar.setNavigationColor(Constant.baseColor, 'light');
+      await SystemNavigationBar.setNavigationColor("#16133f", 'light');
     }
     updateNativeNavigationColor().then(r => {
       console.log(r, API_URL);
@@ -58,25 +59,27 @@ const App: React.FC<AppNode> = () => {
   return (
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persist}>
-        <CustomThemePreferencesProvider value={themePreference}>
-          <SafeAreaProvider>
-            <PaperProvider>
-              <SafeAreaView className="w-full h-full">
-                {/* <StatusBar
-                  barStyle={
-                    theme === 'dark' ? 'light-content' : 'light-content'
-                  }
-                  backgroundColor={Constant.baseColor}
-                /> */}
-                <NavigationContainer theme={NavigationTheme}>
-                  <RootNavigation />
-                </NavigationContainer>
-                <ModalLoader />
-                <ModalError />
-              </SafeAreaView>
-            </PaperProvider>
-          </SafeAreaProvider>
-        </CustomThemePreferencesProvider>
+        <AuthProvider>
+          <CustomThemePreferencesProvider value={themePreference}>
+            <SafeAreaProvider>
+              <PaperProvider>
+                <SafeAreaView className="w-full h-full">
+                  <StatusBar
+                    barStyle={
+                      theme === 'dark' ? 'light-content' : 'light-content'
+                    }
+                    backgroundColor={Constant.baseColor}
+                  />
+                  <NavigationContainer theme={NavigationTheme}>
+                    <RootNavigation />
+                  </NavigationContainer>
+                  <ModalLoader />
+                  <ModalError />
+                </SafeAreaView>
+              </PaperProvider>
+            </SafeAreaProvider>
+          </CustomThemePreferencesProvider>
+        </AuthProvider>
       </PersistGate>
     </ReduxProvider>
   );

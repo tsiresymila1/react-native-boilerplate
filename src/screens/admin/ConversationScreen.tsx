@@ -7,12 +7,10 @@ import {
 } from 'react-native';
 import {useEffect} from 'react';
 import {Avatar} from '@rneui/themed';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootNavigationProps} from '../../@types/navigations/RootNavigationProps';
 
-import {ConversationNavigationProps} from '../../config/navigation';
-import CustomInput from '../../components/common/CustomInput';
-import {ConversationTab} from '../../routes/RouteNavigation';
+import {ConversationNavigationProps} from '@/config/navigation';
+import CustomInput from '@/components/common/CustomInput';
+import {ConversationTab} from '@/routes/RouteNavigation';
 import uuid from 'react-native-uuid';
 
 const ConversationScreen: React.FC<ConversationNavigationProps> = ({
@@ -24,12 +22,11 @@ const ConversationScreen: React.FC<ConversationNavigationProps> = ({
     //     NativeStackNavigationProp<RootNavigationProps, 'Home', undefined>
     //   >()
     //   .navigate('SignIn');
-    console.log("Rerender ::")
   }, [navigation]);
   return (
     <>
       <StatusBar barStyle="default" backgroundColor="#16133f" />
-      <View className="w-full flex-1 h-full ">
+      <View className="w-full flex-1 h-full">
         <View className="w-full bg-[#16133f] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.8)] pb-2">
           <View className="w-full justify-between px-4 flex-row py-3">
             <View className="py-2 mr-4">
@@ -40,7 +37,9 @@ const ConversationScreen: React.FC<ConversationNavigationProps> = ({
               />
             </View>
             <View className="flex-1 px-2">
-              <CustomInput placeholder="search" />
+              <View style={{height: 20}}>
+                <CustomInput placeholder="search" />
+              </View>
             </View>
           </View>
           <ScrollView
@@ -50,7 +49,11 @@ const ConversationScreen: React.FC<ConversationNavigationProps> = ({
             {[...Array(10).keys()].map(e => {
               return (
                 <TouchableNativeFeedback
-                  background={TouchableNativeFeedback.Ripple('#acacac', true,40)}
+                  background={TouchableNativeFeedback.Ripple(
+                    '#acacac',
+                    true,
+                    40,
+                  )}
                   accessibilityRole="button"
                   onPress={() => {}}
                   onLongPress={() => {}}

@@ -3,13 +3,13 @@ import {StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import {i18n} from '../../i18n';
-import {SignInNavigationProps} from '../../config/navigation';
+import {i18n} from "@/i18n";
+import {SignInNavigationProps} from "@/config/navigation";
 import Constant from '../../helpers/constant';
 import {moderateScale, verticalScale} from 'react-native-size-matters';
 import CustomInput from '../../components/common/CustomInput';
 import Logo from '../../components/common/Logo';
-import {useLoginMutation} from '../../redux/api/auth/post';
+import {useLoginMutation} from "@/redux/api/auth/post";
 
 const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
   const [loginMutation] = useLoginMutation();

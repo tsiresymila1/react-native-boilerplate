@@ -3,9 +3,9 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import Modal from 'react-native-modal';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useAppDispatch, useAppSelector} from '../hooks/redux';
-import {i18n} from '../i18n';
-import {hideError} from '../redux/slice/errorSlice';
+import {useAppDispatch, useAppSelector} from "@/hooks/redux";
+import {i18n} from "@/i18n";
+import {hideError} from "@/redux/slice/errorSlice";
 
 export const ModalError = () => {
   const message = useAppSelector(state => state.error.message);

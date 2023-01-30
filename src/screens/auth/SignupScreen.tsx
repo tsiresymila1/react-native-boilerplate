@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {i18n} from '../../i18n';
-import {SingUpNavigationProps} from '../../config/navigation';
+import {i18n} from "@/i18n";
+import {SingUpNavigationProps} from "@/config/navigation";
 import {moderateScale, verticalScale} from 'react-native-size-matters';
 import {Button} from 'react-native-paper';
 import Constant from '../../helpers/constant';

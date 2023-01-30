@@ -1,20 +1,19 @@
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigation } from "@react-navigation/native";
+import { SignInNavigationProps } from "@/config/navigation";
+import { useAppSelector } from "@/hooks/redux";
 
 const AuthRequired = ({ children }: { children: JSX.Element }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { navigation } = useNavigation<SignInNavigationProps>();
+
+  const useAuthToken = useAppSelector(state => state.auth)
 
   useEffect(() => {
-    if (!localStorage.getItem('token') || location.pathname === '/logout') {
-      console.log('isExecuted');
-      localStorage.removeItem('token');
-      localStorage.removeItem('expiration_date');
-      navigate('/login', {
-        replace: true,
-      });
-    }
-  }, [location.pathname, navigate]);
+      if (!useAuthToken.token) {
+        console.log('isExecuted');
+        navigation.replace("SignIn")
+      }
+  }, [navigation,useAuthToken]);
 
   return children;
 };

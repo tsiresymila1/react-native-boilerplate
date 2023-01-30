@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Circle} from 'react-native-animated-spinkit';
 import Modal from 'react-native-modal';
-import {useAppDispatch, useAppSelector} from '../hooks/redux';
-import {toggleLoader} from '../redux/slice/loaderSlice';
+import {useAppDispatch, useAppSelector} from "@/hooks/redux";
+import {toggleLoader} from "@/redux/slice/loaderSlice";
 
 export const ModalLoader = () => {
   const isLoading = useAppSelector(state => state.loader.isLoading);

@@ -3,10 +3,11 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": ".",
+    "jsx": "react-native",
     "paths": {
       // This needs to be mirrored in babel.config.js
       // Components is a directory with sub directories
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
     }
   }
 }
