@@ -20,7 +20,7 @@ const SignupScreen: React.FC<SingUpNavigationProps> = ({navigation}) => {
   const [profil, setProfil] = useState<Asset | undefined>();
 
   const register = () => {
-    navigation.navigate('Home', {
+    navigation.replace('Home', {
       screen: 'Conversation',
       params: {
         screen: 'Chat',

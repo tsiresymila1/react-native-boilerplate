@@ -13,8 +13,10 @@ type ParamsAxios = {
   token?: string | undefined;
 };
 
-type ResultType<D = any> = {
+type ResultType<D = any, H = any> = {
   data?: D;
+  headers?: H;
+  status: number;
   error?: {
     status?: number;
     data: string;
@@ -23,9 +25,10 @@ type ResultType<D = any> = {
 export const axiosBaseQuery =
   ({baseUrl} = {baseUrl: ''}): BaseQueryFn<ParamsAxios, ResultType, any> =>
   async ({url, method, data, params}: ParamsAxios, api: BaseQueryApi) => {
+    console.log("API STATE",  (api.getState() as any).auth)
     const authState = (api.getState() as any).auth as AuthState;
     api.dispatch(toggleLoader(true));
-    const tokenType = {Authorization: `Bearer ${authState.token ?? ''}`};
+    const tokenType = {Authorization: `${authState.token ?? ''}`};
     const currentUrl = baseUrl + url;
     let contentType = {};
     try {
@@ -41,14 +44,21 @@ export const axiosBaseQuery =
         },
       });
       api.dispatch(toggleLoader(false));
-      return {data: result.data};
+      console.log("Getting result : ", result.data)
+      return {
+        data: {
+          data: result.data,
+          headers: result.headers,
+          status: result.status,
+        },
+      };
     } catch (axiosError: any) {
+      api.dispatch(toggleLoader(false));
+      console.log("Getting error : ", JSON.stringify(axiosError))
       const err = axiosError as AxiosError;
       const errorMessage = (
         (err.response?.data || err.message) as string
       ).trim();
-      console.info(errorMessage)
-      api.dispatch(toggleLoader(false));
       setTimeout(() => {
         api.dispatch(
           showError({

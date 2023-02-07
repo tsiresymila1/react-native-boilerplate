@@ -5,7 +5,7 @@ import {
   TouchableNativeFeedback,
   View,
 } from 'react-native';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {Avatar} from '@rneui/themed';
 
 import {ConversationNavigationProps} from '@/config/navigation';
@@ -13,17 +13,27 @@ import CustomInput from '@/components/common/CustomInput';
 import {ConversationTab} from '@/routes/RouteNavigation';
 import uuid from 'react-native-uuid';
 import CustomText from '@/components/common/CustomText';
+import {useAppSelector} from '@/hooks/redux';
+import {getFileUrl} from '@/utils/storage';
+import {useLazyGetListQuery} from '@/redux/api/user/get';
 
 const ConversationScreen: React.FC<ConversationNavigationProps> = ({
   navigation,
 }) => {
+  const [users, setUsers] = useState<any[]>([]);
+  const auth = useAppSelector(state => state.auth);
+  const [getUser, {data}] = useLazyGetListQuery();
   useEffect(() => {
-    // navigation
-    //   .getParent<
-    //     NativeStackNavigationProp<RootNavigationProps, 'Home', undefined>
-    //   >()
-    //   .navigate('SignIn');
-  }, [navigation]);
+    if (auth.token) {
+      getUser(null);
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    if (data) {
+      setUsers(data.data);
+    }
+  }, [data]);
   return (
     <>
       <StatusBar barStyle="default" backgroundColor="#16133f" />
@@ -34,20 +44,23 @@ const ConversationScreen: React.FC<ConversationNavigationProps> = ({
               <Avatar
                 size={36}
                 rounded
-                source={{uri: 'https://randomuser.me/api/portraits/men/36.jpg'}}
+                source={{uri: `${getFileUrl(auth.user?.image ?? '')}`}}
               />
             </View>
             <View className="flex-1 px-2">
               <View style={{height: 20}}>
-                <CustomInput placeholder="search" containerStyle={{height: 40}} />
+                <CustomInput
+                  placeholder="search"
+                  containerStyle={{height: 40}}
+                />
               </View>
             </View>
           </View>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            className="px-2 py-1">
-            {[...Array(10).keys()].map(e => {
+            className="px-2 py-1 h-[80px]">
+            {users.map(user => {
               return (
                 <TouchableNativeFeedback
                   background={TouchableNativeFeedback.Ripple(
@@ -59,7 +72,7 @@ const ConversationScreen: React.FC<ConversationNavigationProps> = ({
                   onPress={() => {}}
                   onLongPress={() => {}}
                   accessibilityState={{selected: true}}
-                  accessibilityLabel={`Name-${e}`}
+                  accessibilityLabel={`${user.key}`}
                   testID={`user-connected-item-${uuid.v4()}`}
                   key={`user-connected-item-${uuid.v4()}`}>
                   <View className="px-3 rounded-lg">
@@ -67,13 +80,13 @@ const ConversationScreen: React.FC<ConversationNavigationProps> = ({
                       size={56}
                       rounded
                       source={{
-                        uri: 'https://randomuser.me/api/portraits/men/36.jpg',
+                        uri: `${getFileUrl(user.image ?? '')}`,
                       }}>
                       <View className="w-[10px] h-[10px] bg-green-500 absolute bottom-1 right-1 rounded-lg"></View>
                     </Avatar>
                     <View className="w-full justify-center items-center">
                       <CustomText className="text-sm text-[#7e7e7e]">
-                        Name
+                        {user.username}
                       </CustomText>
                     </View>
                   </View>

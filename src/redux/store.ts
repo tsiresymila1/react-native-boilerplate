@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {persistReducer, persistStore} from 'redux-persist';
+import {persistStore} from 'redux-persist';
 import {authReducer} from './slice/authSlice';
 import errorSlice from './slice/errorSlice';
 import loaderSlice from './slice/loaderSlice';

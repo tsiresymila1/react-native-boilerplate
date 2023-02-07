@@ -4,7 +4,16 @@ import {TouchableNativeFeedback, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import uuid from 'react-native-uuid';
 import CustomText from '@/components/common/CustomText';
-const ConversationItem = () => {
+import {useAppSelector} from '@/hooks/redux';
+import {truncate} from 'lodash';
+import { getFileUrl } from '@/utils/storage';
+
+const ConversationItem = ({chat}: {chat: any}) => {
+  const auth = useAppSelector(state => state.auth);
+
+  const message = chat.messages.length > 0 ? chat.messages[0].content : '';
+  const participant = chat.participants.find((p: any) => p.key !== auth.user.key);
+
   return (
     <TouchableNativeFeedback
       background={TouchableNativeFeedback.Ripple('#acacac', false)}
@@ -20,7 +29,7 @@ const ConversationItem = () => {
             size={56}
             rounded
             source={{
-              uri: 'https://randomuser.me/api/portraits/men/36.jpg',
+              uri: `${getFileUrl(participant?.image ?? '')}`,
             }}>
             <View className="w-[10px] h-[10px] bg-green-500 absolute bottom-1 right-1 rounded-lg"></View>
           </Avatar>
@@ -28,14 +37,13 @@ const ConversationItem = () => {
         <View className=" justify-between flex-row">
           <View className="w-8/12 justify-center">
             <View className="pb-1">
-              <CustomText
-                className="text-sm text-[#bebebe]">
-                Randriarimanana Tsiresy Milà
+              <CustomText className="text-sm text-[#bebebe] font-bold">
+                {participant?.username ?? 'No user'}
               </CustomText>
             </View>
             <View className="pt-1 flex-row">
               <CustomText className="text-sm text-[#bebebe]">
-                exmeple conversation
+                {truncate(message as string, {length: 22})}
               </CustomText>
               <CustomText className="text-sm text-[#bebebe] mx-4">
                 07:23

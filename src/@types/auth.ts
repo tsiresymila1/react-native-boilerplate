@@ -1,4 +1,11 @@
 export type LoginDataType = {
-    username: string,
+    email: string,
     password: string
+}
+
+export type RegisterDataType = {
+    email: string,
+    username: string,
+    password: string,
+    image: any
 }
