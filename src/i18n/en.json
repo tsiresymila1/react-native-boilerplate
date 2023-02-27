@@ -6,5 +6,6 @@
   "login" : "Login",
   "signup" : "Signup",
   "register" : "Register",
-  "ok": "OK"
+  "ok": "OK",
+  "more-chat": "load more"
 }

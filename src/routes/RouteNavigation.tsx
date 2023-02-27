@@ -1,86 +1,71 @@
 import React from 'react';
 
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import {
-  AdminNavigationProps,
-  ConvTabNavigationProps,
-  RootNavigationProps,
-} from '../@types/navigations/RootNavigationProps';
+import {RootNavigationProps} from '../@types/navigations/RootNavigationProps';
 import SignInScreen from '../screens/auth/SignInScreen';
 import SignupScreen from '../screens/auth/SignupScreen';
 import SplashScreen from '../screens/SplashScreen';
 import {navigationOption} from '../config/navigation';
-import ConversationScreen from '../screens/admin/ConversationScreen';
-import Chat from '../components/admin/Conversation/Chat';
-import People from '../components/admin/Conversation/People';
-import CustomTabBar from '../components/TabBar';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import {Appbar} from 'react-native-paper';
+import AdminDrawerNavigation from './AdminDrawerNavigation';
+
+const AppbarContent = Appbar.Content as any;
 const RootStack = createStackNavigator<RootNavigationProps>();
-const ConversationStack = createStackNavigator<AdminNavigationProps>();
-const Tab = createBottomTabNavigator<ConvTabNavigationProps>();
-
-export const ConversationTab = () => {
-  return (
-    <Tab.Navigator
-      tabBar={props => <CustomTabBar {...props} />}
-      screenOptions={navigationOption}
-      initialRouteName={'Chat'}>
-      <Tab.Screen
-        options={{
-          title: 'Chats',
-          tabBarLabel: 'Chats',
-          tabBarIcon: ({size, color}) => {
-            return (
-              <MaterialCommunityIcons
-                name="chat"
-                size={size}
-                color={color}
-              />
-            );
-          },
-        }}
-        name="Chat"
-        component={Chat}
-      />
-      <Tab.Screen
-        options={{
-          title: 'People',
-          tabBarLabel: 'People',
-          tabBarIcon: ({size, color}) => {
-            return <MaterialIcons name="group-add" size={size} color={color} />;
-          },
-        }}
-        name="People"
-        component={People}
-      />
-    </Tab.Navigator>
-  );
-};
-
-const AdminNavigation = () => {
-  return (
-    <ConversationStack.Navigator screenOptions={navigationOption}>
-      <ConversationStack.Screen
-        name="Conversation"
-        component={ConversationScreen}></ConversationStack.Screen>
-    </ConversationStack.Navigator>
-  );
-};
 
 const RootNavigation = () => {
   return (
     <RootStack.Navigator
-      screenOptions={navigationOption}
+      screenOptions={{
+        ...navigationOption,
+        headerShown: true,
+        header(props) {
+          return (
+            <Appbar.Header elevated>
+              <AppbarContent
+                color="#010101"
+                titleStyle={{
+                  fontFamily: 'Montserrat-Bold',
+                  display: 'flex',
+                  alignSelf: 'center',
+                }}
+                title={props.options.title}
+              />
+            </Appbar.Header>
+          );
+        },
+      }}
       initialRouteName={'Splash'}>
-      <RootStack.Screen name={'Splash'} component={SplashScreen} />
-      <RootStack.Screen name={'SignIn'} component={SignInScreen} />
-      <RootStack.Screen name={'SignUp'} component={SignupScreen} />
+      <RootStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name={'Splash'}
+        component={SplashScreen}
+      />
+      <RootStack.Screen
+        options={{
+          title: 'SIGNIN',
+        }}
+        name={'SignIn'}
+        component={SignInScreen}
+      />
+      <RootStack.Screen
+        options={{
+          title: 'REGISTER',
+        }}
+        name={'SignUp'}
+        component={SignupScreen}
+      />
       {/*<RootStack.Screen name={'Home'} component={SignupScreen} />*/}
-      <RootStack.Screen name="Home" component={AdminNavigation} />
+      <RootStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Drawer"
+        component={AdminDrawerNavigation}
+      />
     </RootStack.Navigator>
   );
 };

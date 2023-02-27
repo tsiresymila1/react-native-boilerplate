@@ -3,50 +3,105 @@ import React from 'react';
 import {TouchableNativeFeedback, View} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import uuid from 'react-native-uuid';
+import Animated, {Layout} from 'react-native-reanimated';
 import CustomText from '@/components/common/CustomText';
-import {useAppSelector} from '@/hooks/redux';
-import {truncate} from 'lodash';
-import { getFileUrl } from '@/utils/storage';
+import {truncate, capitalize} from 'lodash';
+import {getFileUrl} from '@/utils/storage';
+import {Chat, UserStateEnum} from '@/@types/data';
+import moment from 'moment';
+import useConvItem from '@/components/admin/Conversation/ConversationItem/hooks/useConvItem';
 
-const ConversationItem = ({chat}: {chat: any}) => {
-  const auth = useAppSelector(state => state.auth);
-
-  const message = chat.messages.length > 0 ? chat.messages[0].content : '';
-  const participant = chat.participants.find((p: any) => p.key !== auth.user.key);
+const ConversationItem = ({
+  chat,
+  onClick,
+}: {
+  chat: Chat;
+  onClick: (key: string) => void;
+}) => {
+  const {currentChat, message, participants, auth, isRead} = useConvItem(chat);
 
   return (
     <TouchableNativeFeedback
-      background={TouchableNativeFeedback.Ripple('#acacac', false)}
+      background={TouchableNativeFeedback.Ripple(
+        'rgba(0, 150, 136, 0.04)',
+        false,
+      )}
       accessibilityRole="button"
-      onPress={() => {}}
+      onPress={() => onClick(currentChat.id.toFixed())}
       onLongPress={() => {}}
       accessibilityState={{selected: true}}
       testID={`user-connected-item-${uuid.v4()}`}
       key={`user-connected-item-${uuid.v4()}`}>
-      <View className="w-full py-2 flex-row justify-start">
-        <View className="px-3">
+      <Animated.View
+        // entering={FadeIn.duration(0)}
+        layout={Layout.springify()}
+        className="w-full py-2 flex-row justify-start">
+        <View className="px-3 mt-2">
           <Avatar
-            size={56}
+            size={46}
             rounded
-            source={{
-              uri: `${getFileUrl(participant?.image ?? '')}`,
-            }}>
-            <View className="w-[10px] h-[10px] bg-green-500 absolute bottom-1 right-1 rounded-lg"></View>
+            source={
+              participants.length > 1
+                ? require('./../../../../assets/images/group.png')
+                : {
+                    uri: `${getFileUrl(
+                      participants.length > 0 ? participants[0].image : '',
+                    )}`,
+                  }
+            }>
+            {participants.length === 1 &&
+              participants[0].state?.status === UserStateEnum.Online && (
+                <View className="w-[10px] h-[10px] bg-[#009686] absolute bottom-1 right-1 rounded-lg"></View>
+              )}
           </Avatar>
         </View>
-        <View className=" justify-between flex-row">
+        <View className="justify-between flex-row">
           <View className="w-8/12 justify-center">
             <View className="pb-1">
-              <CustomText className="text-sm text-[#bebebe] font-bold">
-                {participant?.username ?? 'No user'}
+              <CustomText className="text-sm text-[#2b2b2b8e] font-bold">
+                {capitalize(
+                  participants.length > 0
+                    ? participants.length > 1
+                      ? `Message groupé (${participants
+                          .map((p: any) => p.username)
+                          .join('-')})`
+                      : participants[0].username
+                    : 'No user',
+                )}
               </CustomText>
             </View>
             <View className="pt-1 flex-row">
-              <CustomText className="text-sm text-[#bebebe]">
-                {truncate(message as string, {length: 22})}
-              </CustomText>
-              <CustomText className="text-sm text-[#bebebe] mx-4">
-                07:23
+              {isRead ? (
+                <CustomText className="text-sm text-[#2b2b2b]">
+                  {message?.type === 2
+                    ? `${
+                        capitalize(
+                          (message?.sender?.id === auth.user?.id
+                            ? 'You'
+                            : message?.sender?.username) ?? '',
+                        ) as string
+                      } sent photo`
+                    : truncate((message?.content ?? '') as string, {
+                        length: 22,
+                      })}
+                </CustomText>
+              ) : (
+                <CustomText className="text-sm text-[#2b2b2b] font-bold">
+                  {message?.type === 2
+                    ? `${
+                        capitalize(
+                          (message?.sender?.id === auth.user?.id
+                            ? 'You'
+                            : message?.sender?.username) ?? '',
+                        ) as string
+                      } sent photo`
+                    : truncate((message?.content ?? '') as string, {
+                        length: 22,
+                      })}
+                </CustomText>
+              )}
+              <CustomText className="text-sm text-[#2b2b2b] mx-4">
+                {moment(message?.updatedAt).format('HH:MM')}
               </CustomText>
             </View>
           </View>
@@ -54,7 +109,7 @@ const ConversationItem = ({chat}: {chat: any}) => {
             <EvilIcons name="check" color={'#bebebe'} size={20} />
           </View>
         </View>
-      </View>
+      </Animated.View>
     </TouchableNativeFeedback>
   );
 };

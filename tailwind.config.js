@@ -9,7 +9,7 @@ module.exports = {
       }
     },
     variables: {
-      "--base-color": "#211f4a",
+      "--base-color": "#009688",
       "--second-color": "#2f2d4f",
       "--text-base-color": "white",
       "--placeholder-base-color": "rgba(135,135,153,0.64)",

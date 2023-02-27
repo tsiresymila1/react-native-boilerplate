@@ -10,17 +10,18 @@ export const ModalLoader = () => {
   const dispatch = useAppDispatch();
 
   const hideModal = () => {
-    dispatch(toggleLoader(false));
+    dispatch(toggleLoader({isLoading:false, loaded: 0}));
   };
 
   return (
     <Modal
       animationIn={'zoomIn'}
       animationOut={'zoomOut'}
-      isVisible={isLoading}
+      isVisible={false}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
       backdropOpacity={0.5}
+      className='py-0'
       onBackButtonPress={hideModal}>
       <View style={styles.modalLoader}>
         <Circle size={48} color={'#ffffff'} />

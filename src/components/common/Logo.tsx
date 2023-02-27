@@ -4,7 +4,7 @@ const Logo = (props: Omit<ImagePropsBase, 'source'>) => {
   return (
     <Image
       source={require('../../assets/images/logo.png')}
-      className="h-[140px]"
+      className="h-[180px]"
       resizeMode="contain"
       {...props}
     />

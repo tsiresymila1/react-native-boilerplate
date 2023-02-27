@@ -2,9 +2,7 @@ import {Input, InputProps} from '@rneui/themed';
 import {StyleSheet} from 'react-native';
 import Constant from '@/helpers/constant';
 
-type Props = Omit<InputProps, 'ref'> & {
-  ref?: any;
-};
+type Props = InputProps
 const CustomInput = ({containerStyle, ...props}: Props) => {
   return (
     <Input
@@ -14,7 +12,7 @@ const CustomInput = ({containerStyle, ...props}: Props) => {
       inputContainerStyle={{borderBottomWidth: 0, padding: 0, marginTop: 24}}
       containerStyle={{...styles.input, ...((containerStyle as object | null) ?? {})}}
       style={{
-        fontSize: 15,
+        fontSize: 13,
         color: Constant.textBaseColor,
         fontFamily: 'Montserrat-Regular',
       }}
@@ -29,9 +27,10 @@ const styles = StyleSheet.create({
     height: 48,
     justifyContent: 'center',
     backgroundColor: Constant.secondColor,
-    borderWidth: 0,
+    borderWidth: 1,
     fontSize: 14,
     color: 'white',
     borderRadius: 8,
+    borderColor: Constant.baseContainerColor,
   },
 });

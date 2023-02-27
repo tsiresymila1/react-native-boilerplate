@@ -1,15 +1,16 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
+import { Chat } from '../data';
 export type AdminNavigationProps = {
   Conversation: NavigatorScreenParams<ConvTabNavigationProps>;
-  Message: undefined;
-  Settings: undefined;
+  Message: {chat: Chat};
+  SearchModal: undefined;
 };
 
 export type RootNavigationProps = {
   Splash: undefined;
   SignIn: undefined;
   SignUp: undefined;
-  Home: NavigatorScreenParams<AdminNavigationProps>;
+  Drawer: NavigatorScreenParams<HomeDrawerNavigationProps>;
 };
 
 export type ConvTabNavigationProps = {
@@ -18,3 +19,8 @@ export type ConvTabNavigationProps = {
   People: undefined;
   Story: undefined;
 };
+
+export type HomeDrawerNavigationProps = {
+  Home: NavigatorScreenParams<AdminNavigationProps>;
+};
+

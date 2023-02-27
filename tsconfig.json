@@ -8,6 +8,7 @@
       // This needs to be mirrored in babel.config.js
       // Components is a directory with sub directories
       "@/*": ["./src/*"],
-    }
-  }
+    },
+  },
+  
 }

@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from 'react';
-import {StyleSheet,  View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Image, Keyboard, StyleSheet, View} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {i18n} from '@/i18n';
@@ -12,33 +12,51 @@ import {useLoginMutation} from '@/redux/api/auth/post';
 import CustomText from '@/components/common/CustomText';
 import CustomButton from '@/components/common/CustomButton';
 
-import {useAppDispatch} from '@/hooks/redux';
+import {useAppDispatch, useAppSelector} from '@/hooks/redux';
 import {logged} from '@/redux/slice/authSlice';
+import {useEventEmitter} from '@/hooks/eventContent';
 
 const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
+  const auth = useAppSelector(state => state.auth);
   const [loginMutation, {data, isLoading, isError}] = useLoginMutation();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const dispatch = useAppDispatch();
 
+  const emitter = useEventEmitter();
+
   const runLogin = useCallback(() => {
-    loginMutation({email: username, password}).then(res => {
+    if (isLoading) return;
+    Keyboard.dismiss();
+    if (username.length < 4 || password.length < 4) {
+      return;
+    }
+    loginMutation({username, password}).then(res => {
       const result = res as any;
       console.log(result);
       if (result && result.data && result.data.data) {
-        const user = result.data.data;
-        const token = result.data.headers['authorization'];
-        console.log("State ",{user, token})
+        const user = result.data.data['user'];
+        const token = `Bearer ${result.data.data['access_token']}`;
+        console.log('State ', {user, token});
         dispatch(logged({user, token}));
-        navigation.replace('Home', {
+      }
+    });
+  }, [username, password]);
+
+  useEffect(() => {
+    if (auth.token && auth.user) {
+      emitter.emit('reconnect');
+      navigation.replace('Drawer', {
+        screen: 'Home',
+        params: {
           screen: 'Conversation',
           params: {
             screen: 'Chat',
           },
-        });
-      }
-    });
-  }, [username,password]);
+        },
+      });
+    }
+  }, [auth, emitter]);
 
   return (
     <View className="h-full w-full justify-center px-4">
@@ -73,8 +91,11 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
         />
       </View>
       <CustomButton
-        className="w-full bg-[#2b207f] rounded-[8px]"
+        className="w-full rounded-[8px]"
+        buttonColor="#009688"
+        // disabled={username.length === 0 || password.length === 0}
         contentStyle={styles.btnContentStyle}
+        loading={isLoading}
         mode="contained"
         onPress={runLogin}>
         {i18n.t('login')}
@@ -86,7 +107,7 @@ const SignInScreen: React.FC<SignInNavigationProps> = ({navigation}) => {
         <CustomButton
           className="px-0 py-0"
           textColor={Constant.textBaseColor}
-          onPress={() => navigation.replace('SignUp')}
+          onPress={() => (isLoading ? {} : navigation.replace('SignUp'))}
           mode="text">
           {i18n.t('register')}
         </CustomButton>
@@ -99,6 +120,7 @@ export default SignInScreen;
 const styles = StyleSheet.create({
   btnContentStyle: {
     width: '100%',
+    color: 'white',
     height: verticalScale(36),
     justifyContent: 'center',
     alignItems: 'center',

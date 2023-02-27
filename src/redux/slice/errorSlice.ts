@@ -12,8 +12,8 @@ export interface ErrorState {
     name: 'error',
     initialState,
     reducers: {
-      showError: (state, action: PayloadAction<{message: any, date: any}>) => {
-        state.message = JSON.stringify(action.payload.message)
+      showError: (state, action: PayloadAction<{message: string, date: any}>) => {
+        state.message = action.payload.message
         return state
       },
       hideError: (state) => {

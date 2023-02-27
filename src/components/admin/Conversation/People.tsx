@@ -1,7 +1,7 @@
 import CustomText from '@/components/common/CustomText';
 import { View} from 'react-native';
 
-const People = () => {
+const PeopleScreen = () => {
   return (
     <View className="px-4 py-4">
       <CustomText>People</CustomText>
@@ -9,4 +9,4 @@ const People = () => {
   );
 };
 
-export default People;
+export default PeopleScreen;

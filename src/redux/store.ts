@@ -10,7 +10,7 @@ import {baseApi} from './api/baseApi';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: [],
+  whitelist: ["token","user"],
 };
 
 // redux store, combine reducers

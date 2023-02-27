@@ -6,19 +6,25 @@ import {SplashNavigationProps} from '@/config/navigation';
 import Logo from '@/components/common/Logo';
 import CustomText from '@/components/common/CustomText';
 import {useAppSelector} from '@/hooks/redux';
+import {useLazyGetMeQuery} from '@/redux/api/user/get';
+import {ActivityIndicator} from 'react-native-paper';
+import Constant from '@/helpers/constant';
 
 const SplashScreen: React.FC<SplashNavigationProps> = ({navigation}) => {
+  const [getMe, {data, error, isLoading}] = useLazyGetMeQuery();
   const auth = useAppSelector(state => state.auth);
   const loading = () => {
     new Promise<{data: string | null}>(resolve =>
-      setTimeout(() => resolve({data: 'ok'}), 3000),
+      setTimeout(() => resolve({data: 'ok'}), 100),
     ).then(() => {
-      console.log("Auth :",auth)
-      if (auth.user && auth.token) {
-        navigation.replace('Home', {
-          screen: 'Conversation',
+      if (data) {
+        navigation.replace('Drawer', {
+          screen: 'Home',
           params: {
-            screen: 'Chat',
+            screen: 'Conversation',
+            params: {
+              screen: 'Chat',
+            },
           },
         });
       } else {
@@ -27,21 +33,37 @@ const SplashScreen: React.FC<SplashNavigationProps> = ({navigation}) => {
     });
   };
   useEffect(() => {
-    loading();
-  });
+    if (auth.token && auth.user) {
+      getMe(null);
+    } else {
+      navigation.replace('SignIn');
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    if (data || error) {
+      loading();
+    }
+  }, [data, error]);
+
   return (
     <View
-      className={`flex-1 items-center justify-center  bg-[#211f4a] px-[${scale(
+      className={`flex-1 items-center justify-center bg-[#0096871c] px-[${scale(
         16,
       )}]`}>
       <View className={`justify-center w-full  items-center py-4`}>
         <Logo />
       </View>
       <View className={`justify-center w-full  items-center py-2`}>
-        <CustomText className={`text-white text-[32px]`}>
+        <CustomText className={`text-[#009686] text-[32px]`}>
           {i18n.t('title')}
         </CustomText>
       </View>
+      {isLoading && (
+        <View className={`justify-center w-full  items-center py-2`}>
+          <ActivityIndicator color={Constant.baseColor} size={30} />
+        </View>
+      )}
     </View>
   );
 };

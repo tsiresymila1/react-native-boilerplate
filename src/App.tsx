@@ -1,8 +1,7 @@
 import React, {useEffect, ReactNode as AppNode} from 'react';
 import {Provider as PaperProvider, configureFonts} from 'react-native-paper';
-import {Platform, StatusBar, useColorScheme} from 'react-native';
+import {Platform, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -11,20 +10,20 @@ import {
 import {Provider as ReduxProvider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import RootNavigation from '@/routes/RouteNavigation';
-import Constant from '@/helpers/constant';
 import {CustomThemePreferencesProvider} from '@/config/theme';
 import {CustomThemeProps} from '@/@types/CustomThemeProps';
 import {persist, store} from '@/redux/store';
 import {ModalLoader} from '@/components/ModalLoader';
-// @ts-ignore
-import {API_URL} from '@env';
 import {ModalError} from '@/components/ModalError';
-import {SafeAreaView} from 'react-native';
 import {AuthProvider} from '@/components/AuthRequired/AuthProvider';
 import {MD3LightTheme as DefaultPaperTheme, MD3Theme} from 'react-native-paper';
-// end configuration translate
+import {ModalLoaderProgress} from './components/ModalLoaderProgress';
+import Toast from 'react-native-toast-message';
+import {SocketIoContentProvider} from './hooks/socketIoContent';
+import SocketIoComponent from './Socket/SocketIoComponent';
+import {EventContentProvider} from './hooks/eventContent';
+
 const App: React.FC<AppNode> = () => {
-  //Start Config theme
   const scheme = useColorScheme();
   const [theme, setTheme] = React.useState<'light' | 'dark'>(
     scheme === 'dark' ? 'dark' : 'light',
@@ -45,7 +44,7 @@ const App: React.FC<AppNode> = () => {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      background: Constant.baseColor,
+      // background: Constant.baseColor,
     },
   };
 
@@ -65,6 +64,48 @@ const App: React.FC<AppNode> = () => {
   };
   const paperTheme: MD3Theme = {
     ...DefaultPaperTheme,
+    colors: {
+      primary: 'rgb(0, 106, 106)',
+      onPrimary: 'rgb(255, 255, 255)',
+      primaryContainer: 'rgb(111, 247, 246)',
+      onPrimaryContainer: 'rgb(0, 32, 32)',
+      secondary: 'rgb(74, 99, 99)',
+      onSecondary: 'rgb(255, 255, 255)',
+      secondaryContainer: 'rgb(204, 232, 231)',
+      onSecondaryContainer: 'rgb(5, 31, 31)',
+      tertiary: 'rgb(75, 96, 124)',
+      onTertiary: 'rgb(255, 255, 255)',
+      tertiaryContainer: 'rgb(211, 228, 255)',
+      onTertiaryContainer: 'rgb(4, 28, 53)',
+      error: 'rgb(186, 26, 26)',
+      onError: 'rgb(255, 255, 255)',
+      errorContainer: 'rgb(255, 218, 214)',
+      onErrorContainer: 'rgb(65, 0, 2)',
+      background: 'rgb(250, 253, 252)',
+      onBackground: 'rgb(25, 28, 28)',
+      surface: 'rgb(250, 253, 252)',
+      onSurface: 'rgb(25, 28, 28)',
+      surfaceVariant: 'rgb(218, 229, 228)',
+      onSurfaceVariant: 'rgb(63, 73, 72)',
+      outline: 'rgb(111, 121, 121)',
+      outlineVariant: 'rgb(190, 201, 200)',
+      shadow: 'rgb(0, 0, 0)',
+      scrim: 'rgb(0, 0, 0)',
+      inverseSurface: 'rgb(45, 49, 49)',
+      inverseOnSurface: 'rgb(239, 241, 240)',
+      inversePrimary: 'rgb(76, 218, 218)',
+      elevation: {
+        level0: 'transparent',
+        level1: 'rgb(238, 246, 245)',
+        level2: 'rgb(230, 241, 240)',
+        level3: 'rgb(223, 237, 236)',
+        level4: 'rgb(220, 235, 235)',
+        level5: 'rgb(215, 232, 232)',
+      },
+      surfaceDisabled: 'rgba(25, 28, 28, 0.12)',
+      onSurfaceDisabled: 'rgba(25, 28, 28, 0.38)',
+      backdrop: 'rgba(41, 50, 50, 0.4)',
+    },
     fonts: configureFonts({config: fontConfig}),
   };
   //End Config theme
@@ -72,10 +113,10 @@ const App: React.FC<AppNode> = () => {
   useEffect(() => {
     async function updateNativeNavigationColor() {
       // set bottom tab color
-      await SystemNavigationBar.setNavigationColor('#16133f', 'light');
+      // await SystemNavigationBar.setNavigationColor(Constant.baseColor, 'light');
     }
     updateNativeNavigationColor().then(r => {
-      console.log(r, API_URL);
+      // console.log(r, API_URL);
     });
   }, []);
 
@@ -86,19 +127,23 @@ const App: React.FC<AppNode> = () => {
           <CustomThemePreferencesProvider value={themePreference}>
             <SafeAreaProvider>
               <PaperProvider theme={paperTheme}>
-                <SafeAreaView className="w-full h-full">
-                  <StatusBar
-                    barStyle={
-                      theme === 'dark' ? 'light-content' : 'light-content'
-                    }
-                    backgroundColor={Constant.baseColor}
-                  />
-                  <NavigationContainer theme={NavigationTheme}>
-                    <RootNavigation />
-                  </NavigationContainer>
-                  <ModalLoader />
-                  <ModalError />
-                </SafeAreaView>
+                <EventContentProvider>
+                  <SocketIoContentProvider>
+                    <SocketIoComponent theme={theme}>
+                      <NavigationContainer theme={NavigationTheme}>
+                        <RootNavigation />
+                      </NavigationContainer>
+                      <ModalLoader />
+                      <ModalError />
+                      <ModalLoaderProgress />
+                      <Toast
+                        visibilityTime={2000}
+                        position="bottom"
+                        bottomOffset={20}
+                      />
+                    </SocketIoComponent>
+                  </SocketIoContentProvider>
+                </EventContentProvider>
               </PaperProvider>
             </SafeAreaProvider>
           </CustomThemePreferencesProvider>

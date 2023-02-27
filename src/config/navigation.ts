@@ -3,9 +3,9 @@ import {StackCardInterpolationProps} from '@react-navigation/stack';
 import {
   AdminNavigationProps,
   ConvTabNavigationProps,
+  HomeDrawerNavigationProps,
   RootNavigationProps,
 } from '../@types/navigations/RootNavigationProps';
-import Constant from '../helpers/constant';
 
 export const navigationOption: any = {
   cardStyleInterpolator: ({current, layouts}: StackCardInterpolationProps) => {
@@ -46,12 +46,24 @@ export type SingUpNavigationProps = NativeStackScreenProps<
 
 export type HomeNavigationProps = NativeStackScreenProps<
   RootNavigationProps,
+  "Drawer"
+>;
+
+
+
+export type DrawerHomeNavigationProps = NativeStackScreenProps<
+  HomeDrawerNavigationProps,
   'Home'
 >;
 
 export type ConversationNavigationProps = NativeStackScreenProps<
   AdminNavigationProps,
   'Conversation'
+>;
+
+export type MessageNavigationProps = NativeStackScreenProps<
+  AdminNavigationProps,
+  'Message'
 >;
 
 export type ChatNavigationProps = NativeStackScreenProps<

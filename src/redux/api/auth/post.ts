@@ -12,22 +12,22 @@ const auth = baseApi.injectEndpoints({
           url: API_URL.auth.login,
           method: 'POST',
           data: setDataFormat(credentials, ContentType.JSON),
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }),
-        invalidatesTags: (result, error, data) => [
-          {type: 'Auth', id: data.email},
-        ],
-        providesTags: undefined,
+        invalidatesTags: (result, error, data) => ['User', 'Chat'],
       }),
       register: build.mutation<any, RegisterDataType>({
         query: credentials => ({
           url: API_URL.auth.register,
           method: 'POST',
           data: setDataFormat(credentials, ContentType.FORM_DATA),
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         }),
-        invalidatesTags: (result, error, data) => [
-          {type: 'Auth', id: data.email},
-        ],
-        providesTags: undefined,
+        invalidatesTags: (result, error, data) => ['User', 'Chat'],
       }),
     };
   },
